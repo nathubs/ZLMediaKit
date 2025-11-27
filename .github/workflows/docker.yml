@@ -1,11 +1,8 @@
 name: Docker
 
 on:
-  push:
-    branches:
-      - "master"
-      - "feature/*"
-      - "release/*"
+  tags:
+    - 'v*'
 
 env:
   # Use docker.io for Docker Hub if empty
