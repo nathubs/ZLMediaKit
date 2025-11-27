@@ -1,8 +1,9 @@
 name: Docker
 
 on:
-  tags:
-    - 'v*'
+  push:
+    tags:
+      - 'v*.*.*'  # 只在以 v 开头的标签推送时触发，例如 v1.0.0
 
 env:
   # Use docker.io for Docker Hub if empty
