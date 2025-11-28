@@ -92,7 +92,7 @@ jobs:
           ls -al || true
           exit 1
         fi
-        ARCHIVE_NAME="${{ github.workflow }}_${{ env.BRANCH }}_${{ env.DATE }}_${{ github.run_id }}.tar.gz"
+        ARCHIVE_NAME="${{ github.workflow }}_${{ env.DATE }}_${{ github.run_id }}.tar.gz"
         tar -czf "${ARCHIVE_NAME}" -C release .
         echo "ARCHIVE_NAME=${ARCHIVE_NAME}" >> $GITHUB_ENV
         echo "ARCHIVE_PATH=${GITHUB_WORKSPACE}/${ARCHIVE_NAME}" >> $GITHUB_ENV
@@ -102,7 +102,7 @@ jobs:
       id: upload
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.workflow }}_${{ env.BRANCH }}_${{ env.DATE }}
+        name: ${{ github.workflow }}_${{ env.DATE }}
         path: release/*
         if-no-files-found: error
         retention-days: 90
