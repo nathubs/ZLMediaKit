@@ -10,7 +10,19 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: 配置Git长路径支持
+        run: |
+          git config --global core.longpaths true
+          git config --global core.autocrlf true    
+
+      - name: 安装依赖
+        run: |
+          choco install -y python
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt      
 
       - name: 下载submodule源码
         run: mv -Force .gitmodules_github .gitmodules && git submodule sync && git submodule update --init
