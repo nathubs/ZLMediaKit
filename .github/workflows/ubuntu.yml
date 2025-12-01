@@ -114,8 +114,8 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.ACCESSTOKEN }}
       with:        
-        tag_name: ${{ github.workflow }}-${{ env.BRANCH }}-${{ env.DATE }}-${{ github.run_id }}
-        release_name: ${{ github.workflow }}-${{ env.BRANCH }}-${{ env.DATE }}-${{ github.run_id }}
+        tag_name: ${{ env.BRANCH }}-${{ env.DATE }}-${{ github.run_id }}
+        release_name: ${{ env.BRANCH }}-${{ env.DATE }}-${{ github.run_id }}
         body: |
           Build artifact for ${{ env.BRANCH2 }}
           - git hash: ${{ github.sha }}
