@@ -137,9 +137,9 @@ jobs:
 
     - name: issue评论
       if: github.event_name != 'pull_request' && github.ref != 'refs/heads/feature/test'
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
-        github-token: ${{ secrets.ACCESSTOKEN }}
+        github-token: ${{ secrets.ACCESSTOKEN }}       
         script: |
           const issueNumber = '${{ vars.VERSION_ISSUE_NO }}';
           if (issueNumber && issueNumber !== '') {
@@ -147,13 +147,14 @@ jobs:
               issue_number: parseInt(issueNumber),
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '- 下载地址: [Release](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/releases/tag/' + encodeURIComponent('${{ github.workflow }}-${{ env.DATE }}-${{ github.run_id }}') + ')\n' +
-                '- 分支: ${{ env.BRANCH2 }}\n' +
-                '- git hash: ${{ github.sha }}\n' +
-                '- 编译日期: ${{ env.DATE }}\n' +
-                '- 编译记录: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n' +
-                '- 打包ci名: ${{ github.workflow }}\n' +
-                '- 开启特性: openssl/webrtc/datachannel\n' +
-                '- 说明: 本二进制在 Ubuntu 22.04 上编译，请确保目标机器为 Ubuntu（建议使用相同或兼容版本）以直接运行\n'
+              body: `- 下载地址: [${{ github.workflow }}_${{ env.BRANCH }}_${{ env.DATE }}](${{ steps.upload.outputs.artifact-url }})\n`
+                + `- 分支: ${{ env.BRANCH2 }}\n` 
+                + `- git hash: ${{ github.sha }} \n` 
+                + `- 编译日期: ${{ env.DATE }}\n` 
+                + `- 编译记录: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`
+                + `- 开启特性: openssl/webrtc/datachannel等功能\n`
+                + `- 说明: 本二进制在 Ubuntu 22.04 上编译，请确保目标机器为 Ubuntu（建议使用相同或兼容版本）以直接运行\n` 
             });
-          }
+          } else {
+            console.log('VERSION_ISSUE_NO is not set, skipping comment');
+          }          
